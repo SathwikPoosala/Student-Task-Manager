@@ -22,6 +22,15 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
+    if(password.length < 6){
+      return res.status(400).json({ message: 'Password must be at Least 6 characters long' });
+    }
+    // normally mongoose checks and validates for password length because we specified it in the model.
+    // the reason why we are checking it specially is because, for example think that user entered 
+    // a password of length 1, then after hashing the hashed password length will be more than 6,
+    // so mongoose check and validates that the password length is more than 6. so the user will be created even
+    // if the password length is less than 6. so we are checking it here before hashing the password.
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
