@@ -20,6 +20,15 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/assignment', assignmentRoutes);
 
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route not found' });
+});
+
+app.use((error, req, res, next) => {
+  const statusCode = res.statusCode && res.statusCode !== 200 ? res.statusCode : 500;
+  res.status(statusCode).json({ message: error.message || 'Server error' });
+});
+
 if (require.main === module) {
   connectDB();
 

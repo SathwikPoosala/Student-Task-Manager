@@ -3,23 +3,28 @@ const mongoose = require('mongoose');
 const assignmentSchema = new mongoose.Schema(
     {
         name:{
-            required: [true, 'name is required'],
             type: String,
+            required: [true, 'name is required'],
             trim: true
         },
         priority:{
-            required: [true, 'priority is required'],
             type: Number,
-            trim: true
-
+            required: [true, 'priority is required'],
+            min: 1,
+            max: 3
         },
         completed:{
+            type: Boolean,
             required: [true, 'completed is required'],
-            type: Boolean
         },
         duedate:{
+            type: Date,
             required: [true, 'duedate is required'],
-            type: Date
+        },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
         }
     },
     {

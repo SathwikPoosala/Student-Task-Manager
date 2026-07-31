@@ -8,6 +8,12 @@ const createToken = (userId) => {
   });
 };
 
+const buildUserResponse = (user) => ({
+  id: user._id,
+  name: user.name,
+  email: user.email,
+});
+
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -43,11 +49,7 @@ const registerUser = async (req, res) => {
     res.status(201).json({
       message: 'User registered successfully',
       token: createToken(user._id),
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-      },
+      user: buildUserResponse(user),
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -77,11 +79,17 @@ const loginUser = async (req, res) => {
     res.status(200).json({
       message: 'Login successful',
       token: createToken(user._id),
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-      },
+      user: buildUserResponse(user),
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getMe = async (req, res) => {
+  try {
+    res.status(200).json({
+      user: buildUserResponse(req.user),
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -91,4 +99,5 @@ const loginUser = async (req, res) => {
 module.exports = {
   registerUser,
   loginUser,
+  getMe,
 };

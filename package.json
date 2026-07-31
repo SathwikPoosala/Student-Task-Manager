@@ -1,7 +1,9 @@
 {
   "scripts": {
     "dev": "nodemon backend/app.js",
-    "start": "node backend/app.js"
+    "start": "node backend/app.js",
+    "client": "npm --prefix frontend run dev",
+    "build:client": "npm --prefix frontend run build"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
